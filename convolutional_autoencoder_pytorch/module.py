@@ -76,14 +76,15 @@ class Encoder(Module):
         self.init_conv = nn.Conv2d(image_channels, dim, 7, padding = 3)
 
         self.down_stages = ModuleList([])
-        for (stage_in_dim, stage_out_dim) in stages_in_out_dims:
-            self.down_stages.append(
-                nn.Sequential(
-                    ResnetBlock(stage_in_dim, stage_in_dim, dropout=dropout),
-                    ResnetBlock(stage_in_dim, stage_in_dim, dropout=dropout),
-                    Downsample(stage_in_dim, stage_out_dim),
-                )
-            )
+        for stage_in_dim, stage_out_dim in stages_in_out_dims:
+            blocks = ModuleList()
+            blocks.append(ResnetBlock(stage_in_dim, stage_in_dim, dropout=dropout))
+            blocks.append(ResnetBlock(stage_in_dim, stage_in_dim, dropout=dropout))
+            
+            if stage_in_dim != stage_out_dim:
+                blocks.append(Downsample(stage_in_dim, stage_out_dim))
+            
+            self.down_stages.append(nn.Sequential(*blocks))
 
         mid_dim = dims[-1]
         self.mid_block1 = ResnetBlock(mid_dim, dim_latent, dropout=dropout)
@@ -119,13 +120,14 @@ class Decoder(Module):
 
         self.up_stages = ModuleList([])
         for (stage_in_dim, stage_out_dim) in stages_in_out_dims:
-            self.up_stages.append(
-                nn.Sequential(
-                    ResnetBlock(stage_in_dim, stage_in_dim, dropout=dropout),
-                    ResnetBlock(stage_in_dim, stage_in_dim, dropout=dropout),
-                    Upsample(stage_in_dim, stage_out_dim),
-                )
-            )
+            blocks = ModuleList()
+            blocks.append(ResnetBlock(stage_in_dim, stage_in_dim, dropout=dropout))
+            blocks.append(ResnetBlock(stage_in_dim, stage_in_dim, dropout=dropout))
+            
+            if stage_in_dim != stage_out_dim:
+                blocks.append(Upsample(stage_in_dim, stage_out_dim))
+            
+            self.up_stages.append(nn.Sequential(*blocks))
         
         self.out_dim = image_channels
         self.final_res_block = ResnetBlock(dim, dim)

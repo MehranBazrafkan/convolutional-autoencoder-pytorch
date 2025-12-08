@@ -14,6 +14,8 @@ A minimal, customizable PyTorch package for building and training convolutional 
 
 ## 📦 Installation
 
+You can access the [PyPI page](https://pypi.org/project/convolutional-autoencoder-pytorch/) or install the package directly.
+
 ```bash
 pip install convolutional-autoencoder-pytorch
 
@@ -90,7 +92,7 @@ def train_step(images):
 ## 🙋‍♂️ Author
 
 Developed by [Mehran Bazrafkan](mailto:mhrn.bzrafkn.dev@gmail.com)
-This project is an original implementation of a simplified autoencoder architecture. Some ideas and design inspirations were drawn from the open-source [`denoising-diffusion-pytorch`](https://github.com/lucidrains/denoising-diffusion-pytorch) project by Phil Wang, but the code and architecture were written independently.
+This project is an original implementation of a simplified autoencoder architecture. Some ideas and design inspirations were drawn from the open-source [`denoising-diffusion-pytorch`](https://github.com/lucidrains/denoising-diffusion-pytorch) project, but the code and architecture were written independently.
 
 ## 📢 Contributions & Feedback
 
