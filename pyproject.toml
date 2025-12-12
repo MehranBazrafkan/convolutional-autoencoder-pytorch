@@ -1,6 +1,6 @@
 [project]
 name = "convolutional_autoencoder_pytorch"
-version = "1.0.0"
+version = "1.0.1"
 description = "A package to simplify the implementing an autoencoder model."
 readme = "README.md"
 requires-python = ">=3.10"
