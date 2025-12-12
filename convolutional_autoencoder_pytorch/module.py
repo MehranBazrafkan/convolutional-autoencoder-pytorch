@@ -81,7 +81,7 @@ class Encoder(Module):
             blocks.append(ResnetBlock(stage_in_dim, stage_in_dim, dropout=dropout))
             blocks.append(ResnetBlock(stage_in_dim, stage_in_dim, dropout=dropout))
             
-            if stage_in_dim != stage_out_dim:
+            if stage_in_dim != stage_out_dim or len(self.down_stages) == 0:
                 blocks.append(Downsample(stage_in_dim, stage_out_dim))
             
             self.down_stages.append(nn.Sequential(*blocks))
@@ -124,7 +124,7 @@ class Decoder(Module):
             blocks.append(ResnetBlock(stage_in_dim, stage_in_dim, dropout=dropout))
             blocks.append(ResnetBlock(stage_in_dim, stage_in_dim, dropout=dropout))
             
-            if stage_in_dim != stage_out_dim:
+            if stage_in_dim != stage_out_dim or len(self.up_stages) == len(dim_mults) - 1:
                 blocks.append(Upsample(stage_in_dim, stage_out_dim))
             
             self.up_stages.append(nn.Sequential(*blocks))
